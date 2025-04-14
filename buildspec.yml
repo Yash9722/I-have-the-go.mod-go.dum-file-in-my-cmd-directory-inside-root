@@ -6,16 +6,16 @@ phases:
       docker: 20
     commands:
       - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 091846656105.dkr.ecr.ap-south-1.amazonaws.com
   build:
     commands:
       - echo Building the Docker image...
       - docker build -t my-static-app .
-      - docker tag my-static-app:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/my-static-app:latest
+      - docker tag my-static-app:latest 091846656105.dkr.ecr.ap-south-1.amazonaws.com/my-static-app:latest
   post_build:
     commands:
       - echo Pushing the Docker image to ECR...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/my-static-app:latest
+      - docker push 091846656105.dkr.ecr.ap-south-1.amazonaws.com/my-static-app:latest
 artifacts:
   files:
     - imagedefinitions.json
